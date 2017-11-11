@@ -7,6 +7,8 @@
 
 ?>
 
+<h1><?php esc_html_e( 'Inactive User Logout Settings', 'inactive-logout' ); ?></h1>
+
 <form method="post" action="?page=inactive-logout&tab=ina-basic">
 	<?php wp_nonce_field( '_nonce_action_save_timeout_settings', '_save_timeout_settings' ); ?>
   <table class="ina-form-tbl form-table">

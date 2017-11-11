@@ -50,7 +50,6 @@ function goInactive() {
       //Update Last Active Status
       var postData = { action: 'ina_checklastSession', do: 'ina_updateLastSession', security: ina_ajax.ina_security, timestamp: timestamp };
       $.post( ina_ajax.ajaxurl, postData ).done(function(response) {
-        console.log("Last Active on: " + Date.now());
         var browserTabID = localStorage.getItem("ina__browserTabID");
         if( browserTabID == tabID ) {
           timeoutMessage = window.setTimeout(showTimeoutMessage, timeout_defined);
@@ -58,6 +57,38 @@ function goInactive() {
       });
     });
   }
+}
+
+function inaMakeParagraph() {
+	return jQuery( '<p />' );
+}
+
+function inaChecklastSession() {
+	//Disabled Countdown but directly logout
+	var postData = { action: 'ina_checklastSession', do: 'ina_logout', security: ina_ajax.ina_security };
+	$.post( ina_ajax.ajaxurl, postData).done(function(response) {
+		var op = $.parseJSON(response);
+		if( op.redirect_url ) {
+			window.location = op.redirect_url;
+		} else {
+			var op = inaMakeParagraph();
+			op.text( op.msg );
+
+			var opLink = inaMakeParagraph();
+			opLink.attr( 'class', 'ina-dp-noflict-btn-container' );
+
+			var link = jQuery( '<a />' );
+			link.attr( 'class', 'btn-timeout' );
+			link.attr( 'href', 'javascript:void(0);' );
+			link.attr( 'onclick', 'window.location.reload();' );
+			link.text( 'OK' );
+
+			opLink.append( link );
+
+			$('#ina__dp_logout_message_box .ina-dp-noflict-modal-body').html( op + opLink );
+		}
+		return false;
+	});
 }
 
 //Show timeout Message Now
@@ -70,7 +101,7 @@ function showTimeoutMessage() {
     document.onkeydown = function (evt) {
       var keycode = evt.charCode || evt.keyCode;
       //Disable all keys except F5
-      if(keycode != 116) return false;
+      if ( 116 !== parseInt( keycode ) ) return false;
     }
 
     //Disable Right Click
@@ -97,17 +128,9 @@ function showTimeoutMessage() {
     } else if(ina_disable_countdown) {
       $('#ina__dp_logout_message_box').show();
 
-      //Disabled Countdown but directly logout
-      var postData = { action: 'ina_checklastSession', do: 'ina_logout', security: ina_ajax.ina_security };
-      $.post( ina_ajax.ajaxurl, postData).done(function(response) {
-        var op = $.parseJSON(response);
-        if( op.redirect_url ) {
-          window.location = op.redirect_url;
-        } else {
-          $('#ina__dp_logout_message_box .ina-dp-noflict-modal-body').html( '<p>' + op.msg + '<p><p class="ina-dp-noflict-btn-container"><a class="btn-timeout" href="javascript:void(0);" onclick="window.location.reload();">OK</a></p>' );
-        }
-        return false;
-      });
+      // Checking last session.
+      inaChecklastSession();
+
     } else {
       $('#ina__dp_logout_message_box').show();
       setting_countdown = setInterval(function() {
@@ -118,16 +141,10 @@ function showTimeoutMessage() {
 
         if( t == 0 ) {
           clearTimeout(setting_countdown);
-          var postData = { action: 'ina_checklastSession', do: 'ina_logout', security: ina_ajax.ina_security };
-          $.post( ina_ajax.ajaxurl, postData).done(function(response) {
-            var op = $.parseJSON(response);
-            if( op.redirect_url ) {
-              window.location = op.redirect_url;
-            } else {
-              $('#ina__dp_logout_message_box .ina-dp-noflict-modal-body').html( '<p>' + op.msg + '<p><p class="ina-dp-noflict-btn-container"><a class="btn-timeout" href="javascript:void(0);" onclick="window.location.reload();">OK</a></p>' );
-            }
-            return false;
-          });
+
+          // Checking last session.
+          inaChecklastSession();
+
         }
       }, 1000);
 
