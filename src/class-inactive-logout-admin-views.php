@@ -107,13 +107,6 @@ class Inactive_Logout_Admin_Views {
 		$ina_concurrent           = get_option( '__ina_concurrent_login' );
 		$ina_full_overlay         = get_option( '__ina_full_overlay' );
 		$ina_popup_overlay_color  = get_option( '__ina_popup_overlay_color' );
-		$ina_enable_redirect      = get_option( '__ina_enable_redirect' );
-		$ina_redirect_page_link   = get_option( '__ina_redirect_page_link' );
-
-		// IF redirect is custom page link.
-		if ( 'custom-page-redirect' === $ina_redirect_page_link ) {
-			$custom_redirect_text_field = get_option( '__ina_custom_redirect_text_field' );
-		}
 
 		require_once INACTIVE_LOGOUT_VIEWS . '/tpl-inactive-logout-basic.php';
 
@@ -144,12 +137,6 @@ class Inactive_Logout_Admin_Views {
 		$ina_background_popup = strip_tags( stripslashes( $ina_background_popup ) );
 
 		$ina_full_overlay         = filter_input( INPUT_POST, 'ina_full_overlay', FILTER_SANITIZE_NUMBER_INT );
-		$ina_enable_redirect_link = filter_input( INPUT_POST, 'ina_enable_redirect_link', FILTER_SANITIZE_NUMBER_INT );
-		$ina_redirect_page        = filter_input( INPUT_POST, 'ina_redirect_page' );
-
-		if ( 'custom-page-redirect' === $ina_redirect_page ) {
-			$ina_custom_redirect_text_field = filter_input( INPUT_POST, 'custom_redirect_text_field' );
-		}
 
 		do_action( 'ina_before_update_basic_settings' );
 
@@ -165,12 +152,7 @@ class Inactive_Logout_Admin_Views {
 				update_site_option( '__ina_disable_countdown', $idle_disable_countdown );
 				update_site_option( '__ina_full_overlay', $ina_full_overlay );
 				update_site_option( '__ina_popup_overlay_color', $ina_background_popup );
-				update_site_option( '__ina_enable_redirect', $ina_enable_redirect_link );
-				update_site_option( '__ina_redirect_page_link', $ina_redirect_page );
 
-				if ( 'custom-page-redirect' === $ina_redirect_page ) {
-					update_site_option( '__ina_custom_redirect_text_field', $ina_custom_redirect_text_field );
-				}
 			}
 		}
 
@@ -181,12 +163,6 @@ class Inactive_Logout_Admin_Views {
 			update_option( '__ina_disable_countdown', $idle_disable_countdown );
 			update_option( '__ina_full_overlay', $ina_full_overlay );
 			update_option( '__ina_popup_overlay_color', $ina_background_popup );
-			update_option( '__ina_enable_redirect', $ina_enable_redirect_link );
-			update_option( '__ina_redirect_page_link', $ina_redirect_page );
-
-			if ( 'custom-page-redirect' === $ina_redirect_page ) {
-				update_option( '__ina_custom_redirect_text_field', $ina_custom_redirect_text_field );
-			}
 
 			return true;
 		}

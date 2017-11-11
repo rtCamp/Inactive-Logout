@@ -56,21 +56,11 @@ class Inactive_Logout_Functions {
 
 				case 'ina_logout':
 					$override = is_multisite() ? get_site_option( '__ina_overrideby_multisite_setting' ) : false;
+					$redirect_link = '';
 					// Check in case of Multisite Active.
 					if ( ! empty( $override ) ) {
-						$ina_enable_redirect    = get_site_option( '__ina_enable_redirect' );
-						$ina_redirect_page_link = get_site_option( '__ina_redirect_page_link' );
 						// Enabled Multi user Timeout.
 						$ina_multiuser_timeout_enabled = get_site_option( '__ina_enable_timeout_multiusers' );
-
-						if ( ! empty( $ina_enable_redirect ) ) {
-							if ( 'custom-page-redirect' === $ina_redirect_page_link ) {
-								$ina_redirect_page_link = get_site_option( '__ina_custom_redirect_text_field' );
-								$redirect_link          = $ina_redirect_page_link;
-							} else {
-								$redirect_link = get_the_permalink( $ina_redirect_page_link );
-							}
-						}
 
 						if ( $ina_multiuser_timeout_enabled ) {
 							global $current_user;
@@ -82,19 +72,8 @@ class Inactive_Logout_Functions {
 							}
 						}
 					} else {
-						$ina_enable_redirect    = get_option( '__ina_enable_redirect' );
-						$ina_redirect_page_link = get_option( '__ina_redirect_page_link' );
 						// Enabled Multi user Timeout.
 						$ina_multiuser_timeout_enabled = get_option( '__ina_enable_timeout_multiusers' );
-
-						if ( ! empty( $ina_enable_redirect ) ) {
-							if ( 'custom-page-redirect' === $ina_redirect_page_link ) {
-								$ina_redirect_page_link = get_option( '__ina_custom_redirect_text_field' );
-								$redirect_link          = $ina_redirect_page_link;
-							} else {
-								$redirect_link = get_the_permalink( $ina_redirect_page_link );
-							}
-						}
 
 						if ( $ina_multiuser_timeout_enabled ) {
 							global $current_user;
@@ -123,37 +102,6 @@ class Inactive_Logout_Functions {
 		}
 
 		wp_die();
-	}
-
-	/**
-	 * Get All Pages and Posts
-	 *
-	 * @since  1.2.0
-	 * @return $object
-	 */
-	public static function ina_get_all_pages_posts() {
-		$result = array();
-		$pages  = get_posts(
-			array(
-				'order'          => 'ASC',
-				'posts_per_page' => -1,
-				'post_type'      => array(
-					'post',
-					'page',
-				),
-			)
-		);
-
-		foreach ( $pages as $page ) {
-			$result[] = array(
-				'ID'        => $page->ID,
-				'title'     => $page->post_title,
-				'permalink' => get_the_permalink( $page->ID ),
-				'post_type' => $page->post_type,
-			);
-		}
-
-		return $result;
 	}
 
 	/**

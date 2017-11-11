@@ -135,22 +135,16 @@ final class Inactive_Logout_Main {
 				switch_to_blog( $blog_id );
 				delete_option( '__ina_logout_time' );
 				delete_option( '__ina_logout_message' );
-				delete_option( '__ina_enable_redirect' );
-				delete_option( '__ina_redirect_page_link' );
 
 				delete_site_option( '__ina_overrideby_multisite_setting' );
 				delete_site_option( '__ina_logout_time' );
 				delete_site_option( '__ina_logout_message' );
-				delete_site_option( '__ina_enable_redirect' );
-				delete_site_option( '__ina_redirect_page_link' );
 			}
 			switch_to_blog( $old_blog );
 			return;
 		} else {
 			delete_option( '__ina_logout_time' );
 			delete_option( '__ina_logout_message' );
-			delete_option( '__ina_enable_redirect' );
-			delete_option( '__ina_redirect_page_link' );
 		}
 	}
 

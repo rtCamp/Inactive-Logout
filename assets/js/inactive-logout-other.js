@@ -23,39 +23,6 @@ jQuery(function($) {
     }
   });
 
-  //FOR REDIRECT CHECKBOX
-  if( $('#ina_enable_redirect_link').is(":checked") ) {
-    $('.show_on_enable_redirect_link').show();
-    $('.ina_hide_message_content').hide();
-
-    if( $('select[name=ina_redirect_page]').val() == "custom-page-redirect" ) {
-      $('.show_cutom_redirect_textfield').show();
-    } else {
-      $('.show_cutom_redirect_textfield').hide();
-    }
-  } else {
-    $('.show_on_enable_redirect_link').hide();
-    $('.ina_hide_message_content').show();
-    $('.show_cutom_redirect_textfield').hide();
-  }
-
-  $('#ina_enable_redirect_link').click(function() {
-    if( $( this ).prop( "checked" )) {
-      $('.show_on_enable_redirect_link').show();
-      $('.ina_hide_message_content').hide();
-
-      if( $('select[name=ina_redirect_page]').val() == "custom-page-redirect" ) {
-        $('.show_cutom_redirect_textfield').show();
-      } else {
-        $('.show_cutom_redirect_textfield').hide();
-      }
-    } else {
-      $('.show_on_enable_redirect_link').hide();
-      $('.ina_hide_message_content').show();
-      $('.show_cutom_redirect_textfield').hide();
-    }
-  });
-
   //FOR ADV SETTINGS MULTI ROLE ENABLE CHECKBOX
   if( $('#ina_enable_different_role_timeout').is(":checked") ) {
     $('.ina-multi-role-table, .hide-description-ina').show();
@@ -68,15 +35,6 @@ jQuery(function($) {
       $('.ina-multi-role-table, .hide-description-ina').show();
     } else {
       $('.ina-multi-role-table, .hide-description-ina').hide();
-    }
-  });
-
-  //Select the custom page redirect then show a custom url text field
-  $('select[name=ina_redirect_page]').change(function() {
-    if( $(this).val() == "custom-page-redirect" ) {
-      $('.show_cutom_redirect_textfield').show();
-    } else {
-      $('.show_cutom_redirect_textfield').hide();
     }
   });
 
