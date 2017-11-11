@@ -6,21 +6,6 @@ jQuery(function($) {
   $('.ina-hacking-select').select2();
   $(".ina-hacking-multi-select").select2({ width: '500px', placeholder: "Select Roles" });
 
-  //FOR SHOW WARN BOX CHECKBOX
-  if( $('#ina_show_warn_message_only').is(":checked") ) {
-    $('.show_on_warn_message_enabled').show();
-  } else {
-    $('.show_on_warn_message_enabled').hide();
-  }
-
-  $('#ina_show_warn_message_only').click(function() {
-    if( $( this ).prop( "checked" )) {
-      $('.show_on_warn_message_enabled').show();
-    } else {
-      $('.show_on_warn_message_enabled').hide();
-    }
-  });
-
   // Add Color Picker to all inputs that have 'color-field' class
   $( '.ina_color_picker' ).wpColorPicker();
 

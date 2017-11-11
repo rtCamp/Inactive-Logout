@@ -117,7 +117,6 @@ final class Inactive_Logout_Main {
 		update_option( '__ina_logout_time', $time );
 		update_option( '__ina_popup_overlay_color', '#000000' );
 		update_option( '__ina_logout_message', '<p>You are being timed-out out due to inactivity. Please choose to stay signed in or to logoff.</p><p>Otherwise, you will be logged off automatically.</p>' );
-		update_option( '__ina_warn_message', '<h3>Wakeup !</h3><p>You have been inactive for {wakup_timout}. Press continue to continue browsing.</p>' );
 	}
 
 	/**
@@ -136,14 +135,12 @@ final class Inactive_Logout_Main {
 				switch_to_blog( $blog_id );
 				delete_option( '__ina_logout_time' );
 				delete_option( '__ina_logout_message' );
-				delete_option( '__ina_warn_message' );
 				delete_option( '__ina_enable_redirect' );
 				delete_option( '__ina_redirect_page_link' );
 
 				delete_site_option( '__ina_overrideby_multisite_setting' );
 				delete_site_option( '__ina_logout_time' );
 				delete_site_option( '__ina_logout_message' );
-				delete_site_option( '__ina_warn_message' );
 				delete_site_option( '__ina_enable_redirect' );
 				delete_site_option( '__ina_redirect_page_link' );
 			}
@@ -152,7 +149,6 @@ final class Inactive_Logout_Main {
 		} else {
 			delete_option( '__ina_logout_time' );
 			delete_option( '__ina_logout_message' );
-			delete_option( '__ina_warn_message' );
 			delete_option( '__ina_enable_redirect' );
 			delete_option( '__ina_redirect_page_link' );
 		}
@@ -242,7 +238,6 @@ final class Inactive_Logout_Main {
 			if ( ! empty( $override ) ) {
 				$ina_logout_time          = get_site_option( '__ina_logout_time' ) ? get_site_option( '__ina_logout_time' ) : null;
 				$idle_disable_countdown   = get_site_option( '__ina_disable_countdown' ) ? get_site_option( '__ina_disable_countdown' ) : null;
-				$ina_warn_message_enabled = get_site_option( '__ina_warn_message_enabled' ) ? get_site_option( '__ina_warn_message_enabled' ) : null;
 
 				$ina_multiuser_timeout_enabled = get_site_option( '__ina_enable_timeout_multiusers' );
 				if ( $ina_multiuser_timeout_enabled ) {
@@ -256,7 +251,6 @@ final class Inactive_Logout_Main {
 			} else {
 				$ina_logout_time          = get_option( '__ina_logout_time' ) ? get_option( '__ina_logout_time' ) : null;
 				$idle_disable_countdown   = get_option( '__ina_disable_countdown' ) ? get_option( '__ina_disable_countdown' ) : null;
-				$ina_warn_message_enabled = get_option( '__ina_warn_message_enabled' ) ? get_option( '__ina_warn_message_enabled' ) : null;
 
 				$ina_multiuser_timeout_enabled = get_option( '__ina_enable_timeout_multiusers' );
 				if ( $ina_multiuser_timeout_enabled ) {
@@ -272,7 +266,6 @@ final class Inactive_Logout_Main {
 			$ina_meta_data                             = array();
 			$ina_meta_data['ina_timeout']              = ( isset( $ina_logout_time ) ) ? $ina_logout_time : 15 * 60;
 			$ina_meta_data['ina_disable_countdown']    = ( isset( $idle_disable_countdown ) && 1 === intval( $idle_disable_countdown ) ) ? $idle_disable_countdown : false;
-			$ina_meta_data['ina_warn_message_enabled'] = ( isset( $ina_warn_message_enabled ) && 1 === intval( $ina_warn_message_enabled ) ) ? $ina_warn_message_enabled : false;
 
 			$helper            = Inactive_Logout_Helpers::instance();
 			$disable_timeoutjs = $helper->ina_check_user_role();

@@ -96,7 +96,7 @@ function showTimeoutMessage() {
   var countdown = 10;
   var t;
   var ina_disable_countdown = ina_meta_data.ina_disable_countdown;
-  var ina_warn_message_enabled = ina_meta_data.ina_warn_message_enabled;
+
   jQuery(function($) {
     document.onkeydown = function (evt) {
       var keycode = evt.charCode || evt.keyCode;
@@ -116,16 +116,7 @@ function showTimeoutMessage() {
     }
 
     messageBox = 1;
-    if( ina_warn_message_enabled ) {
-      //Only show message
-      $('#ina__dp_logout_message_box').show();
-      $('.ina_stay_logged_in').click(function() {
-        document.onkeydown = function (evt) { return true; }
-        window.oncontextmenu = null;
-        $('#ina__dp_logout_message_box').hide();
-        messageBox = 0;
-      });
-    } else if(ina_disable_countdown) {
+    if(ina_disable_countdown) {
       $('#ina__dp_logout_message_box').show();
 
       // Checking last session.

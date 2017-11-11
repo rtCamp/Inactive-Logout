@@ -66,30 +66,7 @@
 		  <p class="description"><?php esc_html_e( 'When timeout popup is shown user is not logged out instantly. It gives user a chance to keep using or logout for 10 seconds. Remove this feature and directly log out after inactive.', 'inactive-logout' ); ?></p>
 		</td>
 	  </tr>
-	  <tr>
-		<th scope="row"><label for="ina_show_warn_message_only"><?php esc_html_e( 'Show Warn Message Only', 'inactive-logout' ); ?></label></th>
-		<td>
-		  <input name="ina_show_warn_message_only" type="checkbox" id="ina_show_warn_message_only" <?php echo ! empty( $ina_warn_message_enabled ) ? 'checked' : false; ?> value="1" >
-		  <p class="description"><?php esc_html_e( 'Will show warn message without logout url but user will not log out.', 'inactive-logout' ); ?></p>
-		  <p class="description ina-warn-info"><strong><?php esc_html_e( 'Please note ! Multi role timeout feature will not work when this setting is enabled. Similarly, idle Message Content will be ignored and replaced with this content.', 'inactive-logout' ); ?></strong></p>
-		</td>
-	  </tr>
-	  <tr class="show_on_warn_message_enabled">
-		<th scope="row"><label for="ina_show_warn_message"><?php esc_html_e( 'Warn Message Content', 'inactive-logout' ); ?></label></th>
-		<td>
-			<?php
-			$settings_warn        = array(
-				'media_buttons' => false,
-				'teeny'         => true,
-				'textarea_rows' => 15,
-			);
-			$__ina_warn_message   = get_option( '__ina_warn_message' );
-			$content_warn_message = $__ina_warn_message ? $__ina_warn_message : null;
-			wp_editor( $content_warn_message, 'ina_show_warn_message', $settings_warn );
-			?>
-		  <p class="description"><?php esc_html_e( 'Use {wakup_timout} to show minutes. This is message that will be shown when inactive.', 'inactive-logout' ); ?></p>
-		</td>
-	  </tr>
+
 	  <tr>
 		<th scope="row"><label for="ina_disable_multiple_login"><?php esc_html_e( 'Disable Concurrent Logins', 'inactive-logout' ); ?></label></th>
 		<td>
