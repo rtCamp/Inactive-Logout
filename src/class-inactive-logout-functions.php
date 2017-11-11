@@ -28,13 +28,6 @@ class Inactive_Logout_Functions {
 		// Ajax for checking last session.
 		add_action( 'wp_ajax_ina_checklastSession', array( $this, 'ina_checking_last_session' ) );
 		add_action( 'wp_ajax_nopriv_ina_checklastSession', array( $this, 'ina_checking_last_session' ) );
-
-		// Ajax for resetting.
-		add_action( 'wp_ajax_ina_reset_adv_settings', array( $this, 'ina_reset_adv_settings' ) );
-
-		// Ajax for User Roles only.
-		add_action( 'wp_ajax_ina_save_disabled_roles', array( $this, 'ina_save_disabled_roles' ) );
-		add_action( 'wp_ajax_ina_get_enabled_roles', array( $this, 'ina_get_enabled_roles' ) );
 	}
 
 	/**
@@ -71,28 +64,6 @@ class Inactive_Logout_Functions {
 			}
 		}
 
-		wp_die();
-	}
-
-	/**
-	 * Reset Advanced Settings
-	 *
-	 * @since  1.3.0
-	 */
-	public function ina_reset_adv_settings() {
-		check_ajax_referer( '_ina_nonce_security', 'security' );
-		delete_option( '__ina_roles' );
-
-		if ( is_network_admin() && is_multisite() ) {
-			delete_site_option( '__ina_roles' );
-		}
-
-		wp_send_json(
-			array(
-				'code' => 1,
-				'msg'  => esc_html__( 'Reset advanced settings successful.', 'inactive-logout' ),
-			)
-		);
 		wp_die();
 	}
 
