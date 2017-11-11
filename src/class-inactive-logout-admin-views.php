@@ -139,7 +139,6 @@ class Inactive_Logout_Admin_Views {
 		$idle_timeout               = filter_input( INPUT_POST, 'idle_timeout', FILTER_SANITIZE_NUMBER_INT );
 		$idle_timeout_message       = wp_kses_post( filter_input( INPUT_POST, 'idle_message_text' ) );
 		$idle_disable_countdown     = filter_input( INPUT_POST, 'idle_disable_countdown', FILTER_SANITIZE_NUMBER_INT );
-		$ina_disable_multiple_login = filter_input( INPUT_POST, 'ina_disable_multiple_login', FILTER_SANITIZE_NUMBER_INT );
 
 		$ina_background_popup = trim( filter_input( INPUT_POST, 'ina_color_picker' ) );
 		$ina_background_popup = strip_tags( stripslashes( $ina_background_popup ) );
@@ -164,7 +163,6 @@ class Inactive_Logout_Admin_Views {
 				update_site_option( '__ina_logout_time', $save_minutes );
 				update_site_option( '__ina_logout_message', $idle_timeout_message );
 				update_site_option( '__ina_disable_countdown', $idle_disable_countdown );
-				update_site_option( '__ina_concurrent_login', $ina_disable_multiple_login );
 				update_site_option( '__ina_full_overlay', $ina_full_overlay );
 				update_site_option( '__ina_popup_overlay_color', $ina_background_popup );
 				update_site_option( '__ina_enable_redirect', $ina_enable_redirect_link );
@@ -181,7 +179,6 @@ class Inactive_Logout_Admin_Views {
 			update_option( '__ina_logout_time', $save_minutes );
 			update_option( '__ina_logout_message', $idle_timeout_message );
 			update_option( '__ina_disable_countdown', $idle_disable_countdown );
-			update_option( '__ina_concurrent_login', $ina_disable_multiple_login );
 			update_option( '__ina_full_overlay', $ina_full_overlay );
 			update_option( '__ina_popup_overlay_color', $ina_background_popup );
 			update_option( '__ina_enable_redirect', $ina_enable_redirect_link );

@@ -66,14 +66,6 @@
 		  <p class="description"><?php esc_html_e( 'When timeout popup is shown user is not logged out instantly. It gives user a chance to keep using or logout for 10 seconds. Remove this feature and directly log out after inactive.', 'inactive-logout' ); ?></p>
 		</td>
 	  </tr>
-
-	  <tr>
-		<th scope="row"><label for="ina_disable_multiple_login"><?php esc_html_e( 'Disable Concurrent Logins', 'inactive-logout' ); ?></label></th>
-		<td>
-		  <input name="ina_disable_multiple_login" type="checkbox" id="ina_disable_multiple_login" <?php echo ! empty( $ina_concurrent ) ? 'checked' : false; ?> value="1" >
-		  <p class="description"><?php esc_html_e( 'This will unable user to login using same account in different places.', 'inactive-logout' ); ?></p>
-		</td>
-	  </tr>
 	  <tr>
 		<th scope="row"><label for="ina_enable_redirect_link"><?php esc_html_e( 'Enable Redirect', 'inactive-logout' ); ?></label></th>
 		<td>
