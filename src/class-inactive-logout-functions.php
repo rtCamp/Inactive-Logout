@@ -55,43 +55,13 @@ class Inactive_Logout_Functions {
 					break;
 
 				case 'ina_logout':
-					$override = is_multisite() ? get_site_option( '__ina_overrideby_multisite_setting' ) : false;
-					$redirect_link = '';
-					// Check in case of Multisite Active.
-					if ( ! empty( $override ) ) {
-						// Enabled Multi user Timeout.
-						$ina_multiuser_timeout_enabled = get_site_option( '__ina_enable_timeout_multiusers' );
-
-						if ( $ina_multiuser_timeout_enabled ) {
-							global $current_user;
-							$ina_multiuser_settings = get_site_option( '__ina_multiusers_settings' );
-							foreach ( $ina_multiuser_settings as $ina_multiuser_setting ) {
-								if ( in_array( $ina_multiuser_setting['role'], $current_user->roles, true ) ) {
-									$redirect_link = get_the_permalink( $ina_multiuser_setting['redirect_page'] );
-								}
-							}
-						}
-					} else {
-						// Enabled Multi user Timeout.
-						$ina_multiuser_timeout_enabled = get_option( '__ina_enable_timeout_multiusers' );
-
-						if ( $ina_multiuser_timeout_enabled ) {
-							global $current_user;
-							$ina_multiuser_settings = get_option( '__ina_multiusers_settings' );
-							foreach ( $ina_multiuser_settings as $ina_multiuser_setting ) {
-								if ( in_array( $ina_multiuser_setting['role'], $current_user->roles, true ) ) {
-									$redirect_link = get_the_permalink( $ina_multiuser_setting['redirect_page'] );
-								}
-							}
-						}
-					}
 
 					// Logout Current Users.
 					wp_logout();
 					wp_send_json(
 						array(
 							'msg'          => esc_html__( 'You have been logged out because of inactivity.', 'inactive-logout' ),
-							'redirect_url' => isset( $redirect_link ) ? $redirect_link : false,
+							'redirect_url' => false,
 						)
 					);
 					break;
@@ -112,13 +82,9 @@ class Inactive_Logout_Functions {
 	public function ina_reset_adv_settings() {
 		check_ajax_referer( '_ina_nonce_security', 'security' );
 		delete_option( '__ina_roles' );
-		delete_option( '__ina_enable_timeout_multiusers' );
-		delete_option( '__ina_multiusers_settings' );
 
 		if ( is_network_admin() && is_multisite() ) {
 			delete_site_option( '__ina_roles' );
-			delete_site_option( '__ina_enable_timeout_multiusers' );
-			delete_site_option( '__ina_multiusers_settings' );
 		}
 
 		wp_send_json(

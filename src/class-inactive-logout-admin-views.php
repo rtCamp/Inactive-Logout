@@ -104,7 +104,6 @@ class Inactive_Logout_Admin_Views {
 
 		$time                     = get_option( '__ina_logout_time' );
 		$countdown_enable         = get_option( '__ina_disable_countdown' );
-		$ina_concurrent           = get_option( '__ina_concurrent_login' );
 		$ina_full_overlay         = get_option( '__ina_full_overlay' );
 		$ina_popup_overlay_color  = get_option( '__ina_popup_overlay_color' );
 

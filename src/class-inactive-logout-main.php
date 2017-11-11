@@ -191,23 +191,6 @@ final class Inactive_Logout_Main {
 		// Loading Admin Views.
 		require_once $this->plugin_path . 'src/class-inactive-logout-admin-views.php';
 		require_once $this->plugin_path . 'src/class-inactive-logout-functions.php';
-
-		$concurrent = get_option( '__ina_concurrent_login' );
-
-		// Checking if advanced settings are enabled
-		// @added from 1.6.0.
-		$ina_multiuser_timeout_enabled = get_option( '__ina_enable_timeout_multiusers' );
-		if ( ! empty( $ina_multiuser_timeout_enabled ) ) {
-			$helper                   = Inactive_Logout_Helpers::instance();
-			$disable_concurrent_login = $helper->ina_check_user_role_concurrent_login();
-			if ( $disable_concurrent_login ) {
-				require_once $this->plugin_path . 'src/class-inactive-concurrent-login-functions.php';
-			}
-		} else {
-			if ( isset( $concurrent ) && 1 === intval( $concurrent ) ) {
-				require_once $this->plugin_path . 'src/class-inactive-concurrent-login-functions.php';
-			}
-		}
 	}
 
 	/**
@@ -233,46 +216,21 @@ final class Inactive_Logout_Main {
 				$ina_logout_time          = get_site_option( '__ina_logout_time' ) ? get_site_option( '__ina_logout_time' ) : null;
 				$idle_disable_countdown   = get_site_option( '__ina_disable_countdown' ) ? get_site_option( '__ina_disable_countdown' ) : null;
 
-				$ina_multiuser_timeout_enabled = get_site_option( '__ina_enable_timeout_multiusers' );
-				if ( $ina_multiuser_timeout_enabled ) {
-					$ina_multiuser_settings = get_site_option( '__ina_multiusers_settings' );
-					foreach ( $ina_multiuser_settings as $ina_multiuser_setting ) {
-						if ( in_array( $ina_multiuser_setting['role'], $current_user->roles, true ) ) {
-							$ina_logout_time = $ina_multiuser_setting['timeout'] * 60; // Seconds.
-						}
-					}
-				}
 			} else {
 				$ina_logout_time          = get_option( '__ina_logout_time' ) ? get_option( '__ina_logout_time' ) : null;
 				$idle_disable_countdown   = get_option( '__ina_disable_countdown' ) ? get_option( '__ina_disable_countdown' ) : null;
-
-				$ina_multiuser_timeout_enabled = get_option( '__ina_enable_timeout_multiusers' );
-				if ( $ina_multiuser_timeout_enabled ) {
-					$ina_multiuser_settings = get_option( '__ina_multiusers_settings' );
-					foreach ( $ina_multiuser_settings as $ina_multiuser_setting ) {
-						if ( in_array( $ina_multiuser_setting['role'], $current_user->roles, true ) ) {
-							$ina_logout_time = $ina_multiuser_setting['timeout'] * 60; // Seconds.
-						}
-					}
-				}
 			}
 
 			$ina_meta_data                             = array();
 			$ina_meta_data['ina_timeout']              = ( isset( $ina_logout_time ) ) ? $ina_logout_time : 15 * 60;
 			$ina_meta_data['ina_disable_countdown']    = ( isset( $idle_disable_countdown ) && 1 === intval( $idle_disable_countdown ) ) ? $idle_disable_countdown : false;
 
-			$helper            = Inactive_Logout_Helpers::instance();
-			$disable_timeoutjs = $helper->ina_check_user_role();
-			if ( ! $disable_timeoutjs ) {
-				wp_enqueue_script( 'ina-logout-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/inactive-logout.js', array( 'jquery' ), time(), true );
-				wp_localize_script( 'ina-logout-js', 'ina_meta_data', $ina_meta_data );
-			}
+			wp_enqueue_script( 'ina-logout-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/inactive-logout.js', array( 'jquery' ), time(), true );
+			wp_localize_script( 'ina-logout-js', 'ina_meta_data', $ina_meta_data );
 
 			if ( 'settings_page_inactive-logout' === $hook_suffix || 'toplevel_page_inactive-logout' === $hook_suffix ) {
 				wp_enqueue_script( 'ina-logout-inactive-logoutonly-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/inactive-logout-other.js', array( 'jquery', 'wp-color-picker' ), time(), true );
-				wp_enqueue_script( 'ina-logout-inactive-select-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/select2.min.js', array( 'jquery' ), time(), true );
 
-				wp_enqueue_style( 'ina-logout-inactive-select', INACTIVE_LOGOUT_ASSETS_URL . 'css/select2.min.css', false, time() );
 				wp_localize_script(
 					'ina-logout-inactive-logoutonly-js', 'ina_other_ajax', array(
 						'ajaxurl'      => admin_url( 'admin-ajax.php' ),
