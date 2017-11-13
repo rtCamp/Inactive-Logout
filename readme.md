@@ -1,5 +1,6 @@
 === Inactive Logout ===
-Contributors: j__3rk
+
+Contributors: j__3rk, [@rtCamp](https://github.com/rtCamp/)
 Tags: logout, inactive user, idle, idle logout, idle user, auto logout, autologout, inactive, inactive, automatic logout, multisite autologout, multisite inactive logout, multisite inactive user, multisite, concurrent logout, multiple sessions, multiple user logout, concurrent login
 Donate link: https://deepenbajracharya.com.np/say-hello/
 Requires at least: 4.5.2
@@ -40,8 +41,6 @@ Lemme know if there are any bugs and problems or enhancements you want to make..
 
 **There's a [GIT repository](https://github.com/techies23/Inactive-Logout.git "Github Inactive Repository") too if you want to contribute a patch. Please check issues. Pull requests are welcomed.**
 
-**Please consider giving a [5 star thumbs up](https://wordpress.org/support/plugin/inactive-logout/reviews/#new-post "5 star thumbs up") if you found this useful.**
-
 == Installation ==
 
 Upload the plugin to your blog, Activate it, Load...and You're done!
@@ -71,7 +70,3 @@ Users might face logout after activating or deactivating the plugin. Try to logi
 2. Wakeup functionality message box.
 3. Session going to logout if continue is clicked then session will not end.
 4. Multi User Role Screen
-
-== Contributors ==
-
-[@rtCamp](https://github.com/rtCamp/)
