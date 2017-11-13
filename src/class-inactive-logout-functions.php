@@ -48,7 +48,6 @@ class Inactive_Logout_Functions {
 					break;
 
 				case 'ina_logout':
-
 					// Logout Current Users.
 					wp_logout();
 
