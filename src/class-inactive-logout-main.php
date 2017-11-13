@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class Inactive_Logout_Main {
 
-	const INA_VERSION = '1.7.0';
+	const INA_VERSION = '5.0';
 
 	const DEEPEN_URL = 'https://deepenbajracharya.com.np';
 
@@ -115,10 +115,16 @@ final class Inactive_Logout_Main {
 	protected function _ina_activate_multisite() {
 		$time = 15 * 60; // 15 Minutes
 
+		$msg = sprintf(
+			'<p>%s</p><p>%s</p>',
+			esc_html__( 'You are being timed-out out due to inactivity. Please choose to stay signed in or to logoff.', 'inactive-logout' ),
+			esc_html__( 'Otherwise, you will be logged off automatically.', 'inactive-logout' )
+		);
+
 		$options = array(
 			'__ina_logout_time'         => $time,
 			'__ina_popup_overlay_color' => '#000000',
-			'__ina_logout_message'      => '<p>You are being timed-out out due to inactivity. Please choose to stay signed in or to logoff.</p><p>Otherwise, you will be logged off automatically.</p>',
+			'__ina_logout_message'      => $msg,
 		);
 
 		update_option( '__ina_inactive_logout_options', $options );
