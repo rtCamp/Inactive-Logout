@@ -38,8 +38,6 @@
 				'teeny'         => true,
 				'textarea_rows' => 15,
 			);
-			$message_content = get_option( '__ina_logout_message' );
-			$content         = $message_content ? $message_content : null;
 			wp_editor( $content, 'idle_message_text', $settings );
 			?>
 		  <p class="description"><?php esc_html_e( 'Message to be shown when idle timeout screen shows.', 'inactive-logout' ); ?></p>
@@ -62,7 +60,7 @@
 	  <tr>
 		<th scope="row"><label for="idle_disable_countdown"><?php esc_html_e( 'Disable Timeout Countdown', 'inactive-logout' ); ?></label></th>
 		<td>
-		  <input name="idle_disable_countdown" type="checkbox" id="idle_disable_countdown" <?php echo ! empty( $countdown_enable ) ? 'checked' : false; ?> value="1" >
+		  <input name="idle_disable_countdown" type="text" id="idle_disable_countdown" value="<?php echo esc_attr( $countdown ); ?>" >
 		  <p class="description"><?php esc_html_e( 'When timeout popup is shown user is not logged out instantly. It gives user a chance to keep using or logout for 10 seconds. Remove this feature and directly log out after inactive.', 'inactive-logout' ); ?></p>
 		</td>
 	  </tr>

@@ -45,7 +45,10 @@ class Inactive_Logout_Admin_Views {
 	 */
 	public function ina_create_options_menu() {
 		if ( is_multisite() ) {
-			$idle_overrideby_multisite_setting = get_site_option( '__ina_overrideby_multisite_setting' );
+
+			$options = get_site_option( '__ina_inactive_logout_options' );
+			$idle_overrideby_multisite_setting = ( isset( $options['__ina_overrideby_multisite_setting'] ) ) ? $options['__ina_overrideby_multisite_setting'] : '';
+
 			if ( empty( $idle_overrideby_multisite_setting ) ) {
 				add_options_page(
 					__( 'Inactive User Logout Settings', 'inactive-logout' ),
@@ -99,13 +102,17 @@ class Inactive_Logout_Admin_Views {
 
 		// BASIC.
 		if ( is_network_admin() && is_multisite() ) {
-			$idle_overrideby_multisite_setting = get_site_option( '__ina_overrideby_multisite_setting' );
+			$options = get_site_option( '__ina_inactive_logout_options' );
+			$idle_overrideby_multisite_setting = ( isset( $options['__ina_overrideby_multisite_setting'] ) ) ? $options['__ina_overrideby_multisite_setting'] : false;
 		}
 
-		$time                     = get_option( '__ina_logout_time' );
-		$countdown_enable         = get_option( '__ina_disable_countdown' );
-		$ina_full_overlay         = get_option( '__ina_full_overlay' );
-		$ina_popup_overlay_color  = get_option( '__ina_popup_overlay_color' );
+		$options = get_option( '__ina_inactive_logout_options' );
+
+		$time                    = ( isset( $options['__ina_logout_time'] ) ) ? $options['__ina_logout_time'] : '';
+		$countdown               = ( isset( $options['__ina_disable_countdown'] ) ) ? $options['__ina_disable_countdown'] : 10;
+		$ina_full_overlay        = ( isset( $options['__ina_full_overlay'] ) ) ? $options['__ina_full_overlay'] : '';
+		$ina_popup_overlay_color = ( isset( $options['__ina_popup_overlay_color'] ) ) ? $options['__ina_popup_overlay_color'] : '';
+		$content                 = ( isset( $options['__ina_logout_message'] ) ) ? $options['__ina_logout_message'] : '';
 
 		require_once INACTIVE_LOGOUT_VIEWS . '/tpl-inactive-logout-basic.php';
 
@@ -128,40 +135,50 @@ class Inactive_Logout_Admin_Views {
 			return;
 		}
 
-		$idle_timeout               = filter_input( INPUT_POST, 'idle_timeout', FILTER_SANITIZE_NUMBER_INT );
-		$idle_timeout_message       = wp_kses_post( filter_input( INPUT_POST, 'idle_message_text' ) );
-		$idle_disable_countdown     = filter_input( INPUT_POST, 'idle_disable_countdown', FILTER_SANITIZE_NUMBER_INT );
+		$idle_timeout           = filter_input( INPUT_POST, 'idle_timeout', FILTER_SANITIZE_NUMBER_INT );
+		$idle_timeout_message   = wp_kses_post( filter_input( INPUT_POST, 'idle_message_text' ) );
+		$idle_disable_countdown = filter_input( INPUT_POST, 'idle_disable_countdown', FILTER_SANITIZE_NUMBER_INT );
 
 		$ina_background_popup = trim( filter_input( INPUT_POST, 'ina_color_picker' ) );
 		$ina_background_popup = strip_tags( stripslashes( $ina_background_popup ) );
 
-		$ina_full_overlay         = filter_input( INPUT_POST, 'ina_full_overlay', FILTER_SANITIZE_NUMBER_INT );
+		$ina_full_overlay = filter_input( INPUT_POST, 'ina_full_overlay', FILTER_SANITIZE_NUMBER_INT );
 
 		do_action( 'ina_before_update_basic_settings' );
 
 		// If Mulisite is Active then Add these settings to mulsite option table as well.
 		if ( is_network_admin() && is_multisite() ) {
 			$idle_overrideby_multisite_setting = filter_input( INPUT_POST, 'idle_overrideby_multisite_setting', FILTER_SANITIZE_NUMBER_INT );
-			update_site_option( '__ina_overrideby_multisite_setting', $idle_overrideby_multisite_setting );
 
 			$save_minutes = $idle_timeout * 60; // 60 minutes
 			if ( $idle_timeout ) {
-				update_site_option( '__ina_logout_time', $save_minutes );
-				update_site_option( '__ina_logout_message', $idle_timeout_message );
-				update_site_option( '__ina_disable_countdown', $idle_disable_countdown );
-				update_site_option( '__ina_full_overlay', $ina_full_overlay );
-				update_site_option( '__ina_popup_overlay_color', $ina_background_popup );
+
+				$options = array(
+					'__ina_overrideby_multisite_setting' => $idle_overrideby_multisite_setting,
+					'__ina_logout_time'                  => $save_minutes,
+					'__ina_logout_message'               => $idle_timeout_message,
+					'__ina_disable_countdown'            => $idle_disable_countdown,
+					'__ina_full_overlay'                 => $ina_full_overlay,
+					'__ina_popup_overlay_color'          => $ina_background_popup,
+				);
+
+				update_site_option( '__ina_inactive_logout_options', $options );
 
 			}
 		}
 
 		$save_minutes = $idle_timeout * 60; // 60 minutes
 		if ( $idle_timeout ) {
-			update_option( '__ina_logout_time', $save_minutes );
-			update_option( '__ina_logout_message', $idle_timeout_message );
-			update_option( '__ina_disable_countdown', $idle_disable_countdown );
-			update_option( '__ina_full_overlay', $ina_full_overlay );
-			update_option( '__ina_popup_overlay_color', $ina_background_popup );
+
+			$options = array(
+				'__ina_logout_time'         => $save_minutes,
+				'__ina_logout_message'      => $idle_timeout_message,
+				'__ina_disable_countdown'   => $idle_disable_countdown,
+				'__ina_full_overlay'        => $ina_full_overlay,
+				'__ina_popup_overlay_color' => $ina_background_popup,
+			);
+
+			update_option( '__ina_inactive_logout_options', $options );
 
 			return true;
 		}

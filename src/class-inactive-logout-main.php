@@ -114,9 +114,14 @@ final class Inactive_Logout_Main {
 	 */
 	protected function _ina_activate_multisite() {
 		$time = 15 * 60; // 15 Minutes
-		update_option( '__ina_logout_time', $time );
-		update_option( '__ina_popup_overlay_color', '#000000' );
-		update_option( '__ina_logout_message', '<p>You are being timed-out out due to inactivity. Please choose to stay signed in or to logoff.</p><p>Otherwise, you will be logged off automatically.</p>' );
+
+		$options = array(
+			'__ina_logout_time'         => $time,
+			'__ina_popup_overlay_color' => '#000000',
+			'__ina_logout_message'      => '<p>You are being timed-out out due to inactivity. Please choose to stay signed in or to logoff.</p><p>Otherwise, you will be logged off automatically.</p>',
+		);
+
+		update_option( '__ina_inactive_logout_options', $options );
 	}
 
 	/**
@@ -133,18 +138,15 @@ final class Inactive_Logout_Main {
 
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
-				delete_option( '__ina_logout_time' );
-				delete_option( '__ina_logout_message' );
 
-				delete_site_option( '__ina_overrideby_multisite_setting' );
-				delete_site_option( '__ina_logout_time' );
-				delete_site_option( '__ina_logout_message' );
+				delete_option( '__ina_inactive_logout_options' );
+
+				delete_site_option( '__ina_inactive_logout_options' );
 			}
 			switch_to_blog( $old_blog );
 			return;
 		} else {
-			delete_option( '__ina_logout_time' );
-			delete_option( '__ina_logout_message' );
+			delete_option( '__ina_inactive_logout_options' );
 		}
 	}
 
@@ -152,9 +154,10 @@ final class Inactive_Logout_Main {
 	 * Manging things when plugin is loaded.
 	 */
 	protected function ina_plugins_loaded() {
-		$popup_overlay = get_option( '__ina_popup_overlay_color' );
-		if ( ! $popup_overlay ) {
-			update_option( '__ina_popup_overlay_color', '#000000' );
+		$options = get_option( '__ina_inactive_logout_options' );
+		if ( ! isset( $options['__ina_popup_overlay_color'] ) && empty( $options['__ina_popup_overlay_color'] ) ) {
+			$options['__ina_popup_overlay_color'] = '#000000';
+			update_option( '__ina_inactive_logout_options', $options );
 		}
 
 		if ( is_user_logged_in() ) {
@@ -210,20 +213,27 @@ final class Inactive_Logout_Main {
 		global $current_user;
 
 		if ( is_user_logged_in() ) {
-			// Check if multisite.
-			$override = is_multisite() ? get_site_option( '__ina_overrideby_multisite_setting' ) : false;
-			if ( ! empty( $override ) ) {
-				$ina_logout_time          = get_site_option( '__ina_logout_time' ) ? get_site_option( '__ina_logout_time' ) : null;
-				$idle_disable_countdown   = get_site_option( '__ina_disable_countdown' ) ? get_site_option( '__ina_disable_countdown' ) : null;
 
-			} else {
-				$ina_logout_time          = get_option( '__ina_logout_time' ) ? get_option( '__ina_logout_time' ) : null;
-				$idle_disable_countdown   = get_option( '__ina_disable_countdown' ) ? get_option( '__ina_disable_countdown' ) : null;
+			$override = false;
+
+			// Check if multisite.
+			if ( is_multisite() ) {
+				$options = get_site_option( '__ina_inactive_logout_options' );
+
+				$override = ( isset( $options['__ina_overrideby_multisite_setting'] ) ) ? $options['__ina_overrideby_multisite_setting'] : false;
 			}
+
+			// If overide is empty then take default option.
+			if ( empty( $override ) ) {
+				$options = get_option( '__ina_inactive_logout_options' );
+			}
+
+			$ina_logout_time          = ( isset( $options['__ina_logout_time'] ) ) ? $options['__ina_logout_time'] : null;
+			$idle_disable_countdown   = ( isset( $options['__ina_disable_countdown'] ) ) ? $options['__ina_disable_countdown'] : 10;
 
 			$ina_meta_data                             = array();
 			$ina_meta_data['ina_timeout']              = ( isset( $ina_logout_time ) ) ? $ina_logout_time : 15 * 60;
-			$ina_meta_data['ina_disable_countdown']    = ( isset( $idle_disable_countdown ) && 1 === intval( $idle_disable_countdown ) ) ? $idle_disable_countdown : false;
+			$ina_meta_data['ina_disable_countdown']    = $idle_disable_countdown;
 
 			wp_enqueue_script( 'ina-logout-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/inactive-logout.js', array( 'jquery' ), time(), true );
 			wp_localize_script( 'ina-logout-js', 'ina_meta_data', $ina_meta_data );

@@ -66,8 +66,9 @@ function inaMakeParagraph() {
 function inaChecklastSession() {
 	//Disabled Countdown but directly logout
 	var postData = { action: 'ina_checklastSession', do: 'ina_logout', security: ina_ajax.ina_security };
-	$.post( ina_ajax.ajaxurl, postData).done(function(response) {
-		var op = $.parseJSON(response);
+	jQuery.post( ina_ajax.ajaxurl, postData).done(function(response) {
+		var op = jQuery.parseJSON(response);
+
 		if( op.redirect_url ) {
 			window.location = op.redirect_url;
 		} else {
@@ -85,7 +86,7 @@ function inaChecklastSession() {
 
 			opLink.append( link );
 
-			$('#ina__dp_logout_message_box .ina-dp-noflict-modal-body').html( op + opLink );
+			jQuery('#ina__dp_logout_message_box .ina-dp-noflict-modal-body').html( op + opLink );
 		}
 		return false;
 	});
@@ -93,7 +94,7 @@ function inaChecklastSession() {
 
 //Show timeout Message Now
 function showTimeoutMessage() {
-  var countdown = 10;
+  var countdown = ina_meta_data.ina_disable_countdown;
   var t;
   var ina_disable_countdown = ina_meta_data.ina_disable_countdown;
 
