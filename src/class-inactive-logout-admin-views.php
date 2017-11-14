@@ -86,12 +86,11 @@ class Inactive_Logout_Admin_Views {
 	 * Rendering the output.
 	 */
 	public function ina__render_options() {
-		$saved = false;
 
 		$submit = filter_input( INPUT_POST, 'submit', FILTER_SANITIZE_STRING );
 
 		if ( isset( $submit ) ) {
-			$saved = $this->ina__process_basic_settings();
+			$this->ina__process_basic_settings();
 		}
 
 		// Css rules for Color Picker.
@@ -121,8 +120,6 @@ class Inactive_Logout_Admin_Views {
 
 	/**
 	 * Manages Basic settings.
-	 *
-	 * @return bool|void
 	 */
 	public function ina__process_basic_settings() {
 
@@ -179,8 +176,6 @@ class Inactive_Logout_Admin_Views {
 			);
 
 			update_option( '__ina_inactive_logout_options', $options );
-
-			return true;
 		}
 
 		do_action( 'ina_after_update_basic_settings' );
