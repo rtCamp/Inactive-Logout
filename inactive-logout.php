@@ -1,5 +1,10 @@
 <?php
 /**
+ * Entry point for the plugin.
+ *
+ * This file is read by WordPress to generate the plugin information in the
+ * admin panel.
+ *
  * @link              http://www.deepenbajracharya.com.np
  * @since             1.0.0
  * @package           Inactive Logout
@@ -7,7 +12,7 @@
  * Plugin Name:       Inactive Logout
  * Plugin URI:        https://www.deepenbajracharya.com.np
  * Description:       Inactive logout provides functionality to log out any idle users defined specified time showing a message. Works for frontend as well.
- * Version:           1.7.0
+ * Version:           5.0
  * Author:            Deepen Bajracharya
  * Author URI:        https://www.deepenbajracharya.com.np
  * License:           GPL-2.0+
