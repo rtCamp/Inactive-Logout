@@ -20,8 +20,6 @@ final class Inactive_Logout_Main {
 
 	const INA_VERSION = '5.0';
 
-	const DEEPEN_URL = 'https://deepenbajracharya.com.np';
-
 	/**
 	 * Directory of plugin.
 	 *
@@ -97,12 +95,12 @@ final class Inactive_Logout_Main {
 			$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" ); // WPCS: db call ok, cache ok.
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
-				self::instance()->_ina_activate_multisite();
+				self::instance()->ina_activate_multisite();
 			}
 			switch_to_blog( $old_blog );
 			return;
 		} else {
-			self::instance()->_ina_activate_multisite();
+			self::instance()->ina_activate_multisite();
 		}
 
 		// Load Necessary Components after activation.
@@ -111,8 +109,10 @@ final class Inactive_Logout_Main {
 
 	/**
 	 * Saving options for multisite.
+	 *
+	 * @access protected.
 	 */
-	protected function _ina_activate_multisite() {
+	protected function ina_activate_multisite() {
 		$time = 15 * 60; // 15 Minutes
 
 		$msg = sprintf(
@@ -234,12 +234,12 @@ final class Inactive_Logout_Main {
 				$options = get_option( '__ina_inactive_logout_options' );
 			}
 
-			$ina_logout_time          = ( isset( $options['__ina_logout_time'] ) ) ? $options['__ina_logout_time'] : null;
-			$idle_disable_countdown   = ( isset( $options['__ina_disable_countdown'] ) ) ? $options['__ina_disable_countdown'] : 10;
+			$ina_logout_time        = ( isset( $options['__ina_logout_time'] ) ) ? $options['__ina_logout_time'] : null;
+			$idle_disable_countdown = ( isset( $options['__ina_disable_countdown'] ) ) ? $options['__ina_disable_countdown'] : 10;
 
-			$ina_meta_data                             = array();
-			$ina_meta_data['ina_timeout']              = ( isset( $ina_logout_time ) ) ? $ina_logout_time : 15 * 60;
-			$ina_meta_data['ina_disable_countdown']    = $idle_disable_countdown;
+			$ina_meta_data                          = array();
+			$ina_meta_data['ina_timeout']           = ( isset( $ina_logout_time ) ) ? $ina_logout_time : 15 * 60;
+			$ina_meta_data['ina_disable_countdown'] = $idle_disable_countdown;
 
 			wp_enqueue_script( 'ina-logout-js', INACTIVE_LOGOUT_ASSETS_URL . 'js/inactive-logout.js', array( 'jquery' ), time(), true );
 			wp_localize_script( 'ina-logout-js', 'ina_meta_data', $ina_meta_data );
@@ -309,7 +309,7 @@ final class Inactive_Logout_Main {
 	 */
 	public function ina_load_text_domain() {
 		$domain = 'inactive-logout';
-		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+		apply_filters( 'plugin_locale', get_locale(), $domain );
 		load_plugin_textdomain( $domain, false, $this->plugin_dir . 'lang/' );
 	}
 }

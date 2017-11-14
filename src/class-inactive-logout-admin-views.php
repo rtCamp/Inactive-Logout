@@ -46,7 +46,7 @@ class Inactive_Logout_Admin_Views {
 	public function ina_create_options_menu() {
 		if ( is_multisite() ) {
 
-			$options = get_site_option( '__ina_inactive_logout_options' );
+			$options                           = get_site_option( '__ina_inactive_logout_options' );
 			$idle_overrideby_multisite_setting = ( isset( $options['__ina_overrideby_multisite_setting'] ) ) ? $options['__ina_overrideby_multisite_setting'] : '';
 
 			if ( empty( $idle_overrideby_multisite_setting ) ) {
@@ -72,7 +72,7 @@ class Inactive_Logout_Admin_Views {
 	/**
 	 * Add menu page.
 	 */
-	function ina_menu_multisite_network() {
+	public function ina_menu_multisite_network() {
 		add_menu_page(
 			__( 'Inactive User Logout Settings', 'inactive-logout' ),
 			__( 'Inactive Logout', 'inactive-logout' ),
@@ -102,11 +102,11 @@ class Inactive_Logout_Admin_Views {
 
 		// BASIC.
 		if ( is_network_admin() && is_multisite() ) {
-			$options = get_site_option( '__ina_inactive_logout_options' );
+			$options                           = get_site_option( '__ina_inactive_logout_options' );
 			$idle_overrideby_multisite_setting = ( isset( $options['__ina_overrideby_multisite_setting'] ) ) ? $options['__ina_overrideby_multisite_setting'] : false;
+		} else {
+			$options = get_option( '__ina_inactive_logout_options' );
 		}
-
-		$options = get_option( '__ina_inactive_logout_options' );
 
 		$time                    = ( isset( $options['__ina_logout_time'] ) ) ? $options['__ina_logout_time'] : '';
 		$countdown               = ( isset( $options['__ina_disable_countdown'] ) ) ? $options['__ina_disable_countdown'] : 10;

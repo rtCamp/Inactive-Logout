@@ -1,5 +1,10 @@
 <?php
 /**
+ * Entry point for the plugin.
+ *
+ * This file is read by WordPress to generate the plugin information in the
+ * admin panel.
+ *
  * @link              http://www.deepenbajracharya.com.np
  * @since             1.0.0
  * @package           Inactive Logout
