@@ -137,7 +137,7 @@ class Inactive_Logout_Admin_Views {
 		$idle_disable_countdown = filter_input( INPUT_POST, 'idle_disable_countdown', FILTER_SANITIZE_NUMBER_INT );
 
 		$ina_background_popup = trim( filter_input( INPUT_POST, 'ina_color_picker' ) );
-		$ina_background_popup = strip_tags( stripslashes( $ina_background_popup ) );
+		$ina_background_popup = wp_strip_all_tags( stripslashes( $ina_background_popup ) );
 
 		$ina_full_overlay = filter_input( INPUT_POST, 'ina_full_overlay', FILTER_SANITIZE_NUMBER_INT );
 
