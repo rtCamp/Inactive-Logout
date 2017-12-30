@@ -61,7 +61,7 @@
 				<th scope="row"><label for="idle_disable_countdown"><?php esc_html_e( 'Disable Timeout Countdown', 'inactive-logout' ); ?></label></th>
 				<td>
 					<input name="idle_disable_countdown" type="text" id="idle_disable_countdown" value="<?php echo esc_attr( $countdown ); ?>" >
-					<p class="description"><?php esc_html_e( 'When timeout popup is shown user is not logged out instantly. It gives user a chance to keep using or logout for 10 seconds. Remove this feature and directly log out after inactive.', 'inactive-logout' ); ?></p>
+					<p class="description"><?php esc_html_e( 'When timeout popup is shown, user is not logged out instantly. It gives user a chance to keep using or logout after 10 seconds. Set this to 0 to directly log user out after inactive.', 'inactive-logout' ); ?></p>
 				</td>
 			</tr>
 		</tbody>
